@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "CLASSROOM", indexes = {
-        @Index(name = "IDX_CLASSROOM_SCHOOL", columnList = "SCHOOL_ID")
+
 })
 @Entity
 public class Classroom {
@@ -21,10 +21,7 @@ public class Classroom {
     @Id
     private UUID id;
 
-    @JoinColumn(name = "SCHOOL_ID", nullable = false)
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private School school;
+
 
     @InstanceName
     @Column(name = "NAME", nullable = false)
@@ -39,13 +36,7 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom")
     private List<Teacher> teacher;
 
-    public School getSchool() {
-        return school;
-    }
 
-    public void setSchool(School school) {
-        this.school = school;
-    }
 
     public List<Teacher> getTeacher() {
         return teacher;

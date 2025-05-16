@@ -45,17 +45,27 @@
             <button id="closeButton" action="closeAction"/>
         </hbox>
         <hbox id="actionGrade">
-            <button id="createbutton" text="Create"/>
-            <button id="editbutton" action="studentCoursesDataGrid.edit"/>
-            <button id="removebutton" action="studentCoursesDataGrid.remove"/>
+            <button id="button" action="studentCoursesDataGrid.createAction"/>
+
+            <button id="editbutton" action="studentCoursesDataGrid.editAction"/>
+            <button id="removebutton" action="studentCoursesDataGrid.removeAction"/>
         </hbox>
 
         <dataGrid id="studentCoursesDataGrid" dataContainer="stepsDc" minWidth="100px" width="100%">
             <actions>
-                <action id="create" type="list_create"/>
-                <action id="edit" type="list_edit"/>
-                <action id="remove" type="list_remove"/>
+                <action id="createAction" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="editAction" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="removeAction" type="list_remove"/>
             </actions>
+
             <columns>
                 <column property="course.name"/>
                 <column property="grade"/>

@@ -14,8 +14,10 @@ import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.Dialogs;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.ViewNavigators;
+import io.jmix.flowui.action.DialogAction;
 import io.jmix.flowui.app.inputdialog.DialogActions;
 import io.jmix.flowui.app.inputdialog.DialogOutcome;
+import io.jmix.flowui.app.inputdialog.InputDialog;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.component.button.JmixButton;
 
@@ -48,52 +50,35 @@ public class StudentDetailView extends StandardDetailView<Student> {
     private InstanceContainer<StudentCourse> stepsDc; // Corrected to stepsDc
 
 
-
-
-    @Subscribe(id = "createbutton", subject = "clickListener")
-    public void onCreatebuttonClick( ClickEvent<Button> event) {
-        dialogs.createInputDialog(this)
-                .withHeader("Enter values")
-                .withParameters(
-                        entityParameter("Student", Student.class).withLabel("Student"),
-                        entityParameter("Course", Course.class).withLabel("Course"),
-                        intParameter("Grade").withLabel("Grade").withDefaultValue(1))
-                .withActions(DialogActions.OK_CANCEL)
-                .withCloseListener(closeEvent -> {
-                    if (closeEvent.closedWith(DialogOutcome.OK)) {
-                        Student student = (Student) closeEvent.getValue("Student");
-                        Course course = (Course) closeEvent.getValue("Course");
-                        Integer grade = (Integer) closeEvent.getValue("Grade");
-
-                        if (student != null && course != null && grade != null) {
-                            StudentCourse studentCourse = dataManager.create(StudentCourse.class);
-                            studentCourse.setStudent(student);
-                            studentCourse.setCourse(course);
-                            studentCourse.setGrade(grade);
-
-                            //  Save the StudentCourse to the database
-                            try {
-                                dataManager.save(studentCourse);
-                            } catch (Exception e) {
-                                //  Handle the exception (e.g., show an error message to the user)
-                                e.printStackTrace(); // Log the error for debugging
-                                return; //  Important:  Exit if saving fails
-                            }
-//                            stepsDc.getMutableItems().add(studentCourse);
-
-                            // if the student is new, merge it.
-                            if (entityStates.isNew(student)) {
-                                dataManager.save(student);
-                            }
-                            if (entityStates.isNew(course)) {
-                                dataManager.save(course);
-                            }
-                        }
-                    }
-                })
-                .open();
-    }
+//    @Subscribe(id = "createbutton", subject = "clickListener")
+//    public void onCreatebuttonClick(ClickEvent<Button> event) {
+//        dialogs.createInputDialog(this)
+//                .withHeader("Enter values")
+//                .withParameters(
+//                        entityParameter("student", Student.class).withLabel("Student"),
+//                        entityParameter("course", Course.class).withLabel("Course"),
+//                        intParameter("grade").withLabel("Grade").withDefaultValue(1)
+//                )
+//                .withActions(
+//                        new DialogAction(DialogAction.Type.OK)
+//                                .withHandler(dialogEvent -> {
+//                                    InputDialog dialog = dialogEvent.getInputDialog();
+//                                    Student student = dialog.getValue("student");
+//                                    Course course = dialog.getValue("course");
+//                                    Integer grade = dialog.getValue("grade");
+//
+//                                    StudentCourse enrollment = dataContext.create(StudentCourse.class);
+//                                    enrollment.setStudent(student);
+//                                    enrollment.setCourse(course);
+//                                    enrollment.setGrade(grade);
+//
+//                                    dataManager.save(enrollment);
+//                                }),
+//                        new DialogAction(DialogAction.Type.CANCEL)
+//                )
+//                .open();
+//    }
+//    }
 
 
 }
-
